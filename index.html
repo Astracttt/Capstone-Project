@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Game Explorer</title>
+  <link rel="stylesheet" href="explorer.css" />
+  <link rel="icon" type="image/x-icon" href="5930147.png">
+</head>
+<body>
+  <header>
+    <h1>Video Game Explorer</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  </header>
+
+  <main>
+    
+<div class="top-section">
+      <div class="search-section">
+        <input type="text" id="search" placeholder="Search games..." oninput="handleLiveSearch(event)" />
+
+        <div class="history-controls">
+          <button id="toggle-history">Toggle History</button>
+          <button id="clear-history">Clear History</button>
+        </div>
+    
+        <div class="search-history" id="history"></div>
+      </div>
+    
+      <form id="addGameForm" class="form-section">
+        <button type="submit">Add Game</button>
+        <input type="text" id="newGameName" placeholder="Game Name" required />
+        <input type="url" id="newGameImg" placeholder="Game Image URL" required />
+        <input type="url" id="newGameWiki" placeholder="Game Wiki URL" required />
+      </form>
+        
+    <!-- Add a game count label -->
+    <div class="game-count" id="gameCount">Games Displayed: 0</div>
+    </div>
+    <div class="top-section">
+      <!-- existing search and form sections -->
+    </div>
+  
+    <!-- Add this container for the game cards -->
+    <div id="games" class="game-container"></div>
+
+  
+    
+  </main>
+
+  <footer>
+    &copy; 2025 Video Game Explorer | Capstone Project by Andrelle Beverly
+  </footer>
+
+  <script src="script.js">
+
+  </script>
+</body>
+</html>
