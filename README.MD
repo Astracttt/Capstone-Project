@@ -9,8 +9,6 @@ The **Video Game Explorer** is a web app that lets users view, search, add, and 
 
 ---
 
-## Rubric Categories & Implementation
-
 ### 1. Variable Naming & Indentation  
 - Used descriptive camelCase variable names such as `defaultGames`, `renderGames`, `newGameName`.  
 - Consistent 2-space indentation throughout.  
