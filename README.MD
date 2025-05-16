@@ -1,10 +1,9 @@
-
 # Video Game Explorer - Capstone Project  
 **Created by Andrelle Beverly**  
 ---
 
 ## Project Description  
-The **Video Game Explorer** is a dynamic, visually-rich web app that allows users to:  
+The **Video Game Explorer** is a project that has :  
 - View default video games  
 - Search for games in real-time  
 - Add their own games (with name, image, and wiki link)  
@@ -12,7 +11,7 @@ The **Video Game Explorer** is a dynamic, visually-rich web app that allows user
 - Toggle between **Dark Mode** and **Light Mode**  
 - View and manage **search history**  
 
-This project uses **JavaScript**, **CSS**, and **HTML** with **localStorage** to persist user data without any external APIs.
+This project uses **JavaScript**, **CSS**, and **HTML** with **localStorage** 
 
 ---
 
@@ -30,7 +29,7 @@ This project uses **JavaScript**, **CSS**, and **HTML** with **localStorage** to
 
 ## JavaScript Features
 
-### 1. Default Games  
+### 1. Data Structures and Object Arrays  
 ```js
 const defaultGames = [
   {
@@ -42,12 +41,9 @@ const defaultGames = [
   // more games...
 ];
 ```
-- I created a default list of objects with key/value pairs for game data.
-- Each object uses properties like `name`, `image`, and `wiki`.
+- Used arrays of objects to store game information with keys: `name`, `image`, `wiki`, and `isCustom` to distinguish default vs custom games.
 
----
-
-### 2. Render Games  
+### 2. DOM Manipulation and Dynamic Rendering  
 ```js
 function renderGames(list = null) {
   const container = document.getElementById("games");
@@ -59,12 +55,9 @@ function renderGames(list = null) {
   });
 }
 ```
-- Dynamically renders `.game-card` elements to the DOM.
-- Combines default and custom games using arrays.
+- Dynamically creates and appends game cards to the page combining default and user-added games.
 
----
-
-### 3. Add New Game  
+### 3. Form Handling and Event Listeners  
 ```js
 document.getElementById("addGameForm").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -76,12 +69,45 @@ document.getElementById("addGameForm").addEventListener("submit", function (e) {
   renderGames();
 });
 ```
-- Uses form input elements to capture user data.
-- Stores new game objects in localStorage and updates display.
+- Captures user input from form and adds a new game to localStorage and UI.
 
----
+### 4. Local Storage Integration  
+```js
+function saveGame(game) {
+  const games = getStoredGames();
+  games.push(game);
+  localStorage.setItem("customGames", JSON.stringify(games));
+}
+```
+- Saves and retrieves custom games from localStorage for persistence.
 
-### 4. Delete Custom Game  
+### 5. Filtering and Search  
+```js
+function handleLiveSearch(event) {
+  const term = event.target.value.toLowerCase();
+  const filtered = [...defaultGames, ...getStoredGames()].filter(game =>
+    game.name.toLowerCase().includes(term)
+  );
+  renderGames(filtered);
+}
+```
+- Implements real-time search filtering based on user input.
+
+### 6. Keyboard Shortcuts  
+```js
+document.addEventListener("keydown", function (event) {
+  if (event.key === "/") {
+    document.getElementById("search").focus();
+  }
+  if (event.key === "r") {
+    document.getElementById("search").value = "";
+    renderGames();
+  }
+});
+```
+- Provides keyboard accessibility for quick search focus and reset.
+
+### 7. Deleting Custom Games  
 ```js
 function deleteGame(name) {
   const games = getStoredGames();
@@ -90,29 +116,24 @@ function deleteGame(name) {
   renderGames();
 }
 ```
-- Removes a specific game from localStorage using `filter()`.
-- Also re-renders the game cards after deletion.
+- Removes games from localStorage and updates the UI accordingly.
 
 ---
 
 ## CSS Design
 
-### 1. Font & Theme Colors  
+### 1. Font and Color Variables  
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
 :root {
   --primary: #000;
   --secondary: #e4dee8;
   --accent: #7f5af0;
 }
 ```
-- Uses an external font (`Poppins`) for consistent UI.
-- Declares CSS variables for color customization and theme consistency.
+- Imported Poppins font and defined CSS variables for consistent color theming.
 
----
-
-### 2. Background Animation  
+### 2. Animated Background  
 ```css
 body {
   background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #2a2a2a);
@@ -126,11 +147,9 @@ body {
   100% { background-position: 0% 50%; }
 }
 ```
-- Smoothly animated background using CSS keyframes.
+- Created a smoothly animated gradient background using keyframes.
 
----
-
-### 3. Game Cards  
+### 3. Game Card Styling and Hover Effects  
 ```css
 .game-card {
   background: var(--card-bg-dark);
@@ -149,7 +168,7 @@ body {
   to { opacity: 1; transform: scale(1); }
 }
 ```
-- Each card fades in and scales on hover with transitions and animation.
+- Designed cards with fade-in animation and scaling on hover for a polished UI.
 
 ---
 
@@ -163,7 +182,7 @@ function toggleTheme() {
   localStorage.setItem("theme", theme);
 }
 ```
-- Uses `classList.toggle()` and saves the theme to localStorage.
+- Toggles between dark and light themes and saves preference in localStorage.
 
 ### CSS  
 ```css
@@ -172,13 +191,13 @@ body.light-mode {
   color: #000;
 }
 ```
-- Styles adjust based on the `.light-mode` class.
+- Changes background and text colors when light mode is active.
 
 ---
 
 ## Search Functionality
 
-### Live Search  
+### Live Search and Filtering  
 ```js
 function handleLiveSearch(event) {
   const term = event.target.value.toLowerCase();
@@ -188,11 +207,9 @@ function handleLiveSearch(event) {
   renderGames(filtered);
 }
 ```
-- Filters games as the user types using `.includes()` and `.toLowerCase()`.
+- Enables real-time filtering of games as user types.
 
----
-
-### Keyboard Shortcuts  
+### Keyboard Accessibility  
 ```js
 document.addEventListener("keydown", function (event) {
   if (event.key === "/") {
@@ -204,13 +221,13 @@ document.addEventListener("keydown", function (event) {
   }
 });
 ```
-- Pressing `/` focuses the input, `r` resets the search.
+- Keyboard shortcuts to focus search and reset results.
 
 ---
 
 ## Game Management
 
-### Save to localStorage  
+### Add and Save Games to localStorage  
 ```js
 function saveGame(game) {
   const games = getStoredGames();
@@ -218,26 +235,24 @@ function saveGame(game) {
   localStorage.setItem("customGames", JSON.stringify(games));
 }
 ```
-- Stores user-submitted games using `JSON.stringify()`.
+- Stores user-added games persistently.
 
----
-
-### Delete Button (Only on Custom Games)  
+### Delete Button on Custom Games  
 ```js
 if (game.isCustom) {
   const delBtn = document.createElement("button");
-  delBtn.textContent = "Ã";
+  delBtn.textContent = "×";
   delBtn.addEventListener("click", () => deleteGame(game.name));
   card.appendChild(delBtn);
 }
 ```
-- Only custom games get a delete button.
+- Provides a delete button only on user-added games.
 
 ---
 
 ## Search History
 
-### Add to History  
+### Add Unique Search Terms  
 ```js
 function addSearchHistory(term) {
   let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
@@ -248,11 +263,9 @@ function addSearchHistory(term) {
   }
 }
 ```
-- Saves unique search terms and limits history length.
+- Saves recent unique searches, limiting history to 10 entries.
 
----
-
-### Render History  
+### Render and Manage Search History  
 ```js
 function renderSearchHistory() {
   const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
@@ -268,26 +281,22 @@ function renderSearchHistory() {
     historyBox.appendChild(btn);
   });
 }
-```
-- Creates clickable buttons for past searches.
 
----
-
-### Toggle & Clear History  
-```js
 function toggleHistory() {
   document.getElementById("historyBox").classList.toggle("hidden");
 }
+
 function clearHistory() {
   localStorage.removeItem("searchHistory");
   renderSearchHistory();
 }
 ```
-- Users can show/hide or completely clear their search history.
+- Displays clickable past searches and allows toggling or clearing history.
 
 ---
 
-## Animations  
+## Animations
+
 ```css
 @keyframes backgroundMove { ... }
 @keyframes fadeIn { ... }
@@ -297,11 +306,12 @@ button:hover {
   box-shadow: 0 0 10px var(--accent);
 }
 ```
-- Uses CSS keyframes and hover transitions for buttons and cards.
+- Applied CSS animations and transitions to backgrounds, cards, and buttons for interactive feedback.
 
 ---
 
-## Responsive Design  
+## Responsive Design
+
 ```css
 @media (max-width: 768px) {
   .top-section {
@@ -313,23 +323,26 @@ button:hover {
   }
 }
 ```
-- The app scales well on smaller screens using media queries.
+- Used media queries to ensure the layout adapts smoothly to smaller screens for mobile-friendly usability.
 
 ---
 
 ## Summary
 
-### JavaScript Features:  
-- Object arrays to store data  
-- Form handling for game input  
-- Real-time search with filters  
-- localStorage for games and history  
-- Theme toggle with persistence  
-- Keyboard accessibility  
+### JavaScript  
+- Object arrays and data structures  
+- DOM manipulation and dynamic content rendering  
+- Form event handling and validation  
+- LocalStorage for persistence of data and settings  
+- Real-time search filtering  
+- Keyboard accessibility and shortcuts  
+- Adding and deleting custom games  
 
-### CSS Highlights:  
-- Custom font and color variables  
-- Animated backgrounds and cards  
-- Light/dark mode styling  
-- Responsive layout with mobile-friendly design 
+### CSS  
+- Custom fonts and color variables  
+- Animated backgrounds and UI elements  
+- Dark and light theme toggling  
+- Responsive layout for multiple screen sizes  
+- Smooth animations and hover effects  
 
+---
