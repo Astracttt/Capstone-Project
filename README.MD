@@ -340,7 +340,7 @@ Example:
 }
 ```
 
-### 13. Layering with Z-Index (if used)
+### 13. Layering with Z-Index 
 - Used z-index to stack the search history dropdown and modal elements properly.
 Example:
 ```css
@@ -418,7 +418,7 @@ body.light-mode {
 }
 ```
 
-### 19. Naming Conventions (BEM/Readable)
+### 19. Naming Conventions 
 - Used clear, readable class names, often following BEM-like patterns.
 Example:
 ```css
