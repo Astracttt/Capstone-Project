@@ -431,9 +431,4 @@ Example:
 - Organized logically with whitespace and section comments.
 
 ---
-## Summary  
-This project meets all major categories by using clean naming, modular functions, arrays/objects, localStorage persistence, DOM manipulation, theme toggling, event handling, live search with history, and full CRUD functionality for games. The code is readable, well-indented, and includes comments for clarity 
-
-This CSS implementation demonstrates mastery by following all rubric points with clean, modular, reusable, and responsive styling. The dark/light theme toggle uses CSS variables and classes for efficient theme switching. Buttons, inputs, and cards have consistent styling and smooth transitions. The layout is flexible with flexbox and media queries. Comments and naming conventions keep the code maintainable.
-
 
