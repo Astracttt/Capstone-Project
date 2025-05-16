@@ -1,202 +1,242 @@
-# Video Game Explorer
-
-A simple and interactive web app that allows users to explore and filter video games. Built using only HTML and JavaScript.
-
+# Video Game Explorer - Capstone Project
+**Created by Andrelle Beverly**
 ---
-
+## Project Description
+The **Video Game Explorer** is a dynamic, visually-rich web app that allows users to:
+- View default video games  
+- Search for games in real-time  
+- Add their own games (with name, image, and wiki link)  
+- Remove custom games  
+- Toggle between **Dark Mode** and **Light Mode**  
+- View and manage **search history**
+This project uses **JavaScript**, **CSS**, and **HTML** with **localStorage** to persist user data without any external APIs.
+---
 ## Table of Contents
-
-- [Overview](#overview)  
-- [Features](#features)  
-- [How It Works](#how-it-works)  
-  - [HTML](#html)  
-  - [JavaScript](#javascript)  
-- [Theme Switcher](#theme-switcher)  
-- [How to Use](#how-to-use)  
-- [Credits](#credits)  
-
+1. [JavaScript Features](#javascript-features)  
+2. [CSS Design](#css-design)  
+3. [Theme Toggle](#theme-toggle)  
+4. [Search Functionality](#search-functionality)  
+5. [Game Management](#game-management)  
+6. [Search History](#search-history)  
+7. [Animations](#animations)  
+8. [Responsive Design](#responsive-design)  
 ---
-
-## Overview
-
-This is a front-end project created for my Capstone at West-MEC. It helps users search for and filter through a list of video games using a clean and interactive layout.
-
----
-
-## Features
-
-- Search for games by name  
-- Filter by genre and platform  
-- View updated results instantly  
-- Reset all filters with one click  
-- Switch between dark and light themes  
-
----
-
-## How It Works
-
-This app uses only **HTML** and **JavaScript**. The HTML builds the layout, and JavaScript makes everything interactive.
-
----
-
-## HTML
-
-The HTML file contains three main parts:
----
-### 1. Header
-```html
-<header>
-  <h1>Video Game Explorer</h1>
-  <button id="theme-toggle">Toggle Theme</button>
-</header>
-Displays the title and theme toggle button
+## JavaScript Features
+## 1. Default Games
+```js
+const defaultGames = [ ... ];
 ```
----
 
-### 2. Filters and Search
+## 2. Render Games
 ```
-<div class="controls">
-  <input type="text" id="search-input" placeholder="Search games...">
-  <select id="genre-filter">
-    <option value="">All Genres</option>
-    <option value="Action">Action</option>
-    <option value="Adventure">Adventure</option>
-    <option value="RPG">RPG</option>
-    <option value="Shooter">Shooter</option>
-    <option value="Sandbox">Sandbox</option>
-  </select>
-  <select id="platform-filter">
-    <option value="">All Platforms</option>
-    <option value="PC">PC</option>
-    <option value="PlayStation">PlayStation</option>
-    <option value="Xbox">Xbox</option>
-    <option value="Nintendo">Nintendo</option>
-  </select>
-  <button id="reset-btn">Reset Filters</button>
-</div>
-Lets users search or choose filters
+function renderGames(list = null) { ... }
 ```
----
+- Dynamically creates .game-card elements
 
-### 3. Game Display
-```
-<main id="game-list">
-  <!-- Game cards will be inserted here -->
-</main>
-Game cards are added here with JavaScript
-```
----
+- Combines default and custom games
 
-### JavaScript
-The JavaScript powers all functionality and dynamic behavior.
+- Displays them inside #games container
 
----
-### 1. Game Data
+
+
+3. ## Add New Game
 ```
-const games = [
-  { title: "Minecraft", genre: "Sandbox", platform: "PC" },
-  { title: "God of War", genre: "Action", platform: "PlayStation" },
-  { title: "Halo Infinite", genre: "Shooter", platform: "Xbox" },
-  { title: "The Legend of Zelda", genre: "Adventure", platform: "Nintendo" },
-  { title: "Elden Ring", genre: "RPG", platform: "PC" },
-  { title: "Spider-Man 2", genre: "Action", platform: "PlayStation" }
-];
-A list of games with title, genre, and platform
+document.getElementById("addGameForm").addEventListener("submit", function (e) { ... });
 ```
----
-### 2. Display Function
+- Adds new game objects to localStorage
+- Uses form values from:
+    #newGameName #newGameImg #newGameWiki
+
+4. ## Delete Custom Game
+``` 
+
+function deleteGame(name) { ... }
 ```
-function displayGames(gameList) {
-  const list = document.getElementById("game-list");
-  list.innerHTML = "";
-  gameList.forEach(game => {
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.innerHTML = `
-      <h3>${game.title}</h3>
-      <p>${game.genre}</p>
-      <p>${game.platform}</p>
-    `;
-    list.appendChild(card);
-  });
+- Filters out the selected game from localStorage
+- Removes from DOM using renderGames()
+
+
+
+## CSS Design
+1. Font & Theme Colors
+```
+@import url('https://fonts.googleapis.com/css2?family=Poppins:...');
+:root {
+  --primary: #000;
+  --secondary: #e4dee8;
+  --accent: #000;
 }
-Adds game cards to the page based on input
+Font: Poppins
 ```
 
----
-### 3. Filter Function
+- Theme: black, white, and purple for a dark, elegant look
+
+
+
+2. ## Background Animation
 ```
-function filterGames() {
-  const search = document.getElementById("search-input").value.toLowerCase();
-  const genre = document.getElementById("genre-filter").value;
-  const platform = document.getElementById("platform-filter").value;
-
-  const filtered = games.filter(game => {
-    return (
-      game.title.toLowerCase().includes(search) &&
-      (genre === "" || game.genre === genre) &&
-      (platform === "" || game.platform === platform)
-    );
-  });
-
-  displayGames(filtered);
+body {
+  background: linear-gradient(...);
+  animation: backgroundMove 20s ease infinite;
 }
-Filters games based on search and dropdown values
-```
----
-
-### 4. Event Listeners
-```
-document.getElementById("search-input").addEventListener("input", filterGames);
-document.getElementById("genre-filter").addEventListener("change", filterGames);
-document.getElementById("platform-filter").addEventListener("change", filterGames);
-
-document.getElementById("reset-btn").addEventListener("click", () => {
-  document.getElementById("search-input").value = "";
-  document.getElementById("genre-filter").value = "";
-  document.getElementById("platform-filter").value = "";
-  displayGames(games);
-});
-Updates the list based on search or filter changes
-
-
-Resets filters to show all games again
-
-
-
-Theme Switcher
-This feature allows the user to switch between dark and light themes.
-document.getElementById("theme-toggle").addEventListener("click", () => {
-  const body = document.body;
-  const currentTheme = body.getAttribute("data-theme");
-  const newTheme = currentTheme === "dark" ? "light" : "dark";
-  body.setAttribute("data-theme", newTheme);
-});
-When the button is clicked, it swaps the theme by updating the data-theme on the <body> tag.
+@keyframes backgroundMove { ... }
+Smooth color transitions using CSS animations
 ```
 
----
-### How to Use
+
+3. ## Game Cards
 ```
-Open the app in your browser
-
-
-Type a name in the search bar to find a game
-
-
-Use dropdowns to filter by genre or platform
-
-
-Click the Reset Filters button to see all games again
-
-
-Click Toggle Theme to switch the color theme
+.game-card {
+  background: var(--card-bg-dark);
+  animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn { ... }
+Cards fade in and scale up on hover
 ```
 
----
-### Credits
+
+## Theme Toggle
 ```
-Created by Andrelle Beverly
-West-MEC Central Coding Campus – 2025
+JavaScript
+function toggleTheme() { ... }
+Toggles the light-mode class on <body>
 ```
----
+- Stores theme in localStorage
+
+
+
+## CSS
+```
+body.light-mode {
+  background: linear-gradient(...);
+  color: var(--text-light);
+}
+```
+- Changes background, text, button styles, and card backgrounds for light mode
+
+## Search Functionality
+- Live Search (Real-Time Typing)
+- function handleLiveSearch(event) { ... }
+- Filters games as user types
+- Triggered by the input event
+- Keyboard Shortcuts
+```
+if (event.key === "/") { document.getElementById("search").focus(); }
+```
+Slash key / focuses the search bar
+- Enter triggers search
+- r resets search
+
+
+
+## Game Management
+- Save to Local Storage
+```
+function saveGame(game) {
+  const games = getStoredGames();
+  games.push(game);
+  localStorage.setItem("customGames", JSON.stringify(games));
+}
+```
+- Ensures custom games are remembered even after refresh
+
+
+
+## Delete with Button
+```
+const delBtn = document.createElement("button");
+delBtn.textContent = "×";~
+```
+
+- Shown only on custom cards (not default ones)
+
+
+
+## Search History
+- Add History
+```
+function addSearchHistory(term) {
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+}
+```
+ - Adds new terms if not already in history
+- Limits to 10 recent entries
+
+
+
+## Render History
+```
+function renderSearchHistory() { ... }
+```
+- Creates a button for each past search
+- Clicking re-applies the search
+- Toggle & Clear History
+- function toggleHistory() { ... }
+- function clearHistory() { ... }
+- Toggle shows/hides history
+- Clear removes all from localStorage
+
+
+
+## Animations
+```
+Background: @keyframes backgroundMove
+
+
+Cards: @keyframes fadeIn
+
+
+Hover Effects: scale and glow on buttons/cards
+```
+
+
+
+## Responsive Design
+```
+@media (max-width: 768px) {
+  .top-section {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+App scales for mobile
+```
+
+- Input forms and cards stack nicely
+
+
+
+## Summary
+JavaScript Features:
+Dynamic rendering
+
+
+- localStorage
+
+
+- Form handling
+
+
+- Filtering/search
+
+
+- History tracking
+
+
+- Theme toggling
+
+
+- Keyboard shortcuts
+
+
+- CSS Highlights:
+Gradient animated backgrounds
+
+
+- Glowing headers
+
+
+- Card hover effects
+
+
+- Fully responsive layout
